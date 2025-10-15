@@ -1,0 +1,19 @@
+---
+- name: Template a file to /etc/file.conf
+  ansible.builtin.template:
+    src: yacy.service.j2
+    dest: /etc/systemd/system/yacy.service
+    owner: yacy
+    group: yacy
+    mode: '0644'
+
+- name: Start and enable yacy service
+  ansible.builtin.systemd_service:
+    name: yacy.service
+    state: started
+    enabled: true
+
+- name: Copy nginx conf to /etc/nginx
+  ansible.builtin.template:
+    src: yacy-nginx.j2
+    dest: /etc/nginx/sites-available/yacy

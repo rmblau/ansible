@@ -1,0 +1,9 @@
+- name: Copy ceph.sources to /etc/apt/sources.list.d/proxmox.sources
+  ansible.builtin.template:
+    src: ceph.sources.j2
+    dest: /etc/apt/sources.list.d/proxmox.sources
+
+- name: Copy proxmox.sources to /etc/apt/sources.list.d/proxmox.sources
+  ansible.builtin.template:
+    src: proxmox.sources.j2
+    dest: /etc/apt/sources.list.d/proxmox.sources

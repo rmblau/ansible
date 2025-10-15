@@ -1,0 +1,13 @@
+[Unit]
+Description=YaCy P2P Search Server
+After=network.target
+
+[Service]
+Type=forking
+User=yacy
+ExecStart=/home/yacy/startYACY.sh
+ExecStop=/home/yacy/stopYACY.sh
+ExecRestart=/home/yacy/restartYACY.sh
+
+[Install]
+WantedBy=multi-user.target

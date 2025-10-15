@@ -1,0 +1,7 @@
+- name: Update Debian base repositories to Trixie
+  command: sed -i 's/bookworm/trixie/g' /etc/apt/sources.list
+  notify: 
+   - "apt update"
+   - "dist-upgrade"
+   - "Reboot node"
+

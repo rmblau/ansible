@@ -1,0 +1,18 @@
+---
+- name: "Install and configure Certbot"
+  ansible.builtin.include_role:
+    name: geerlingguy.certbot
+    #name: geerlingguy.nginx
+  vars:
+    certbot_admin_email: mrb1105@proton.me
+    certbot_create_method: standalone
+    certbot_create_standalone_stop_services: nginx
+    certbot_auto_renew: true
+    certbot_auto_renew_user: "{{ ansible_user | default(lookup('env', 'USER')) }}"
+    certbot_auto_renew_hour: "11"
+    certbot_auto_renew_minute: "11"
+    certbot_auto_renew_options: "--quiet"
+    certbot_create_if_missing: true
+    certbot_certs:
+      - domains:
+          - search.rmblau.com

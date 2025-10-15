@@ -1,0 +1,12 @@
+---
+- name: Update Ceph
+  ansible.builtin.include_tasks: ceph.yml
+
+- name: Adjust sources to Trixie
+  ansible.builtin.include_tasks: sources.yml
+
+- name: Update Proxmox
+  ansible.builtin.include_tasks: proxmox.yml
+
+
+    

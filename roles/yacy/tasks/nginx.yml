@@ -1,0 +1,15 @@
+---
+- name: Template a file to /etc/file.conf
+  ansible.builtin.template:
+    src: ../templates/yacy-nginx.j2
+    dest: /etc/nginx/sites-available/yacy
+    owner: yacy
+    group: yacy
+    mode: '0644'
+
+- name: Create a symbolic link
+  ansible.builtin.file:
+    src: /etc/nginx/sites-available/yacy
+    dest: /etc/nginx/sites-enabled/yacy
+    state: link
+  notify: Restart Nginx

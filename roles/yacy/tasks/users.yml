@@ -1,0 +1,11 @@
+---
+- name: Create a user 'yacyadm' with a home directory
+  ansible.builtin.user:
+    name: yacyadm
+    create_home: yes
+    home: /home/yacy
+- name: Create yacy user with home directory
+  ansible.builtin.user:
+    name: yacy
+    create_home: yes
+    home: /home/yacy

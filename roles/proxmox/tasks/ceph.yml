@@ -1,0 +1,5 @@
+- name: Change Reef to Squid
+  command: sed -i 's/reef/squid/' /etc/apt/sources.list.d/ceph.list
+  notify:
+  - "apt update"
+  - "full-update"

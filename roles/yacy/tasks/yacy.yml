@@ -1,0 +1,26 @@
+---
+- name: Download yacy
+  ansible.builtin.get_url:
+    url: https://download.yacy.net/yacy_v1.930_202405130205_59c0cb0f3.tar.gz
+    dest: /home/yacy/yacy_v1.930_202405130205_59c0cb0f3.tar.gz
+
+- name: Extract yacy into /home/yacy
+  ansible.builtin.unarchive:
+    src: "/home/yacy/yacy_v1.930_202405130205_59c0cb0f3.tar.gz"
+    dest: /home/
+    remote_src: yes
+
+- name: change ownership of /home/yacy
+  ansible.builtin.file:
+    path: /home/yacy
+    owner: yacyadm
+    group: yacyadm
+
+- name: change ownership of /home/yacy/DATA
+  ansible.builtin.file:
+    path: /home/yacy/DATA/
+    state: directory
+    owner: yacy
+    group: yacy
+
+

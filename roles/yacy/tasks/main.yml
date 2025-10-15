@@ -1,0 +1,21 @@
+---
+- name: Install required software
+  ansible.builtin.include_tasks: apt.yml
+
+- name: Create users 
+  ansible.builtin.include_tasks: users.yml
+
+- name: Configure Yacy
+  ansible.builtin.include_tasks: yacy.yml
+
+- name: Start Yacy
+  ansible.builtin.include_tasks: systemd.yml
+
+- name: Configure nginx
+  ansible.builtin.include_tasks: nginx.yml
+
+- name: configure certbot
+  ansible.builtin.include_tasks: certbot.yml
+
+
+    

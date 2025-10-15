@@ -1,0 +1,10 @@
+---
+- name: install yacy and configure certbot
+  hosts: all
+  gather_facts: true
+  become: yes
+
+  tasks:
+    - name: Import Yacy tasks
+      import_role: 
+        name: yacy

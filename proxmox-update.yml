@@ -1,0 +1,11 @@
+---
+- name: Upgrade promxox
+  hosts: all
+  gather_facts: true
+  become: yes
+  serial: 1
+
+  tasks:
+    - name: Import Proxmox tasks
+      import_role: 
+        name: proxmox

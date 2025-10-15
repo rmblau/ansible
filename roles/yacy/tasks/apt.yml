@@ -1,0 +1,15 @@
+---
+- name: Install a list of packages
+  ansible.builtin.apt:
+    pkg:
+    - nginx
+    - certbot
+    - python3-certbot-nginx
+    - wget
+    - openjdk-17-jdk-headless
+    - zip
+    - gzip
+
+
+
+        
