@@ -1,0 +1,13 @@
+plugin: community.general.proxmox
+# The URL of your Proxmox API server
+url: '{{ proxmox_host }}'
+user: '{{ proxmox_username }}'
+# password: '{{ proxmox_api_password }}'
+
+# Your provided settings
+validate_certs: false # Set to true if you have valid certs and remove the certs_path option
+want_facts: true
+
+compose:
+  ansible_host: proxmox_agent_interfaces[1]["ip-addresses"][0].split('/')[0]
+  ansible_user: ansible
