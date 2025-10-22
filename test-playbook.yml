@@ -1,0 +1,15 @@
+---
+- name: Test connectivity to all hosts
+  hosts: all
+  gather_facts: no # Not strictly necessary for ping, but good practice if only testing connectivity
+  tasks:
+    - name: Ping all hosts
+      ansible.builtin.ping:
+      register: ping_result
+      ignore_unreachable: yes # Allows the playbook to continue even if some hosts are unreachable
+
+    - name: Display ping results
+      ansible.builtin.debug:
+        msg: "Host {{ item.key }}: {{ item.value }}"
+      loop: "{{ ping_result.results | dict2items }}"
+      when: ping_result.results is defined
