@@ -1,7 +1,7 @@
 plugin: "community.proxmox.proxmox"
-url: "{{ proxmox_host }}"
-user: "{{ proxmox_username}}"
-password: "{{ proxmox_password }}"
+url: "{{lookup('env', 'proxmox_host') }}"
+user: "{{lookup('env', 'proxmox_username') }}"
+password: "{{lookup('env', 'proxmox_password') }}"
 validate_certs: false  # only do this when you trust the network!
 want_facts: true
 want_proxmox_nodes_ansible_host: false
