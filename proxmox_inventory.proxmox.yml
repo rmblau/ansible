@@ -1,4 +1,4 @@
-plugin: community.proxmox
+plugin: "community.proxmox.proxmox"
 # The URL of your Proxmox API server
 url: '{{ proxmox_host }}'
 user: '{{ proxmox_username }}'
