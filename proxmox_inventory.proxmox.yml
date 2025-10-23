@@ -6,11 +6,3 @@ validate_certs: false  # only do this when you trust the network!
 host_alias_suffix: ".rmblau.com"
 want_facts: true
 want_proxmox_nodes_ansible_host: false
-compose:
-  ansible_host: >-
-    {% set ip_info = proxmox_agent_interfaces | selectattr('name', 'equalto', 'ens18') | first %}
-    {% if ip_info is defined and ip_info['ip-addresses'] | length > 0 %}
-    {{ ip_info['ip-addresses'][0]['__ansible_unsafe'] | ipaddr('address') }}
-    {% else %}
-    {{ inventory_hostname }}
-    {% endif %}
