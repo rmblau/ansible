@@ -13,3 +13,7 @@ compose:
     {% else %}
     {{ inventory_hostname }}
     {% endif %}
+
+keyed_groups:
+  - key: proxmox_agent_interfaces | selectattr('name', 'equalto', 'eth0') | list
+    prefix: has_eth0_interface
