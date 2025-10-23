@@ -6,3 +6,5 @@ validate_certs: false  # only do this when you trust the network!
 host_alias_suffix: ".rmblau.com"
 want_facts: true
 want_proxmox_nodes_ansible_host: false
+compose:
+  ansible_host: "{{ vmname }}.rmblau.com"
