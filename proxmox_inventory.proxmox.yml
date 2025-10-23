@@ -1,4 +1,4 @@
-plugin: community.proxmox.proxmox
+plugin: "community.proxmox.proxmox"
 url: "{{ proxmox_host }}"
 user: "{{ proxmox_username}}"
 password: "{{ proxmox_password }}"
