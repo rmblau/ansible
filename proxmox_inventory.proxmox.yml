@@ -5,5 +5,7 @@ password: "{{lookup('env', 'PROXMOX_PASSWORD') }}"
 validate_certs: false  # only do this when you trust the network!
 want_facts: true
 want_proxmox_nodes_ansible_host: false
+hostnames:
+  - "{{ vmname }}.rmblau.com"
 compose:
   ansible_host: "{{ vmname }}.rmblau.com"
