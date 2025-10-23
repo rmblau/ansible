@@ -1,0 +1,12 @@
+---
+- name: proxmox clone
+  hosts: localhost
+  gather_facts: false
+
+  tasks:
+    - name: Import proxmox tasks
+      import_role:
+        name: proxmox
+    - name: import vminfo tasks
+      import_role:
+        name: vminfo
