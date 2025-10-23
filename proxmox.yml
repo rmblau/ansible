@@ -6,4 +6,4 @@ validate_certs: false  # only do this when you trust the network!
 want_facts: true
 want_proxmox_nodes_ansible_host: false
 compose:
-  ansible_host: "{{ inventory_hostname }}.rmblau.com"
+  ansible_host: inventory_hostname + '.rmblau.com'
