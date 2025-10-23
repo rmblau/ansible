@@ -1,13 +1,9 @@
-plugin: "community.proxmox.proxmox"
-# The URL of your Proxmox API server
-url: '{{ proxmox_host }}'
-user: '{{ proxmox_username }}'
-# password: '{{ proxmox_api_password }}'
-
-# Your provided settings
-validate_certs: false # Set to true if you have valid certs and remove the certs_path option
+plugin: community.proxmox.proxmox
+url: "{{ proxmox_host }}"
+user: "{{ proxmox_username}}"
+password: "{{ proxmox_password }}"
+validate_certs: false  # only do this when you trust the network!
 want_facts: true
-
+want_proxmox_nodes_ansible_host: false
 compose:
-  ansible_host: proxmox_agent_interfaces[1]["ip-addresses"][0].split('/')[0]
-  ansible_user: ansible
+  ansible_host: proxmox_ipconfig0.ip | default(proxmox_net0.ip) | ipaddr('address')
