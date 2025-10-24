@@ -1,12 +1,75 @@
----
-- name: Update Ceph
-  ansible.builtin.include_tasks: ceph.yml
+- name: Clone VM from template
+  community.general.proxmox_kvm:
+    api_host: "{{ proxmox_host }}"
+    api_user: "root@pam"
+    api_password: "{{ proxmox_password }}"
+    validate_certs: "no"
+    state: present
+    node: "{{ vm_template_node }}"
+    clone: "{{ vm_template_name }}"
+    full: "yes"
+    name: "{{ k8s_hostname }}"
+    timeout: 300
+  delegate_to: localhost
+  register: vm_id
 
-- name: Adjust sources to Trixie
-  ansible.builtin.include_tasks: sources.yml
+- name: Sleep for 10 seconds to wait for VM creation
+  ansible.builtin.wait_for:
+    timeout: 10
+  delegate_to: localhost
 
-- name: Update Proxmox
-  ansible.builtin.include_tasks: proxmox.yml
+- name: Update cloned VM with chosen CPU and Memory values
+  community.general.proxmox_kvm:
+    node: "{{ vm_template_node }}"
+    api_user: "root@pam"
+    api_password: "{{ proxmox_password }}"
+    api_host: "{{ proxmox_host }}"
+    name: "{{ k8s_hostname }}"
+    agent: "enabled=1"
+    cores: "{{ proxmox_cores }}"
+    memory: "{{ proxmox_memory }}"
+    update: "yes"
 
+- name: Vlan Assignment
+  when: proxmox_vlan_id is defined and proxmox_vlan_id != ""
+  community.general.proxmox_nic:
+    api_user: "root@pam"
+    api_password: "{{ proxmox_password }}"
+    api_host: "{{ proxmox_host }}"
+    vmid: "{{ vm_id.vmid }}"
+    interface: net0
+    bridge: vmbr0
+    tag: "{{ proxmox_vlan_id }}"
+  register: vlanasign_result
 
-    
+- name: Ensure VM {{ vm_id.vmid }} is on {{ proxmox_node }}
+  community.general.proxmox_kvm:
+    api_host: "{{ proxmox_host }}"
+    api_user: "root@pam"
+    api_password: "{{ proxmox_password }}"
+    vmid: "{{ vm_id.vmid }}"
+    node: "{{ proxmox_node }}"
+    migrate: true
+    state: present
+  delegate_to: localhost
+  async: 3600
+  poll: 15
+
+- name: Sleep for 10 seconds to wait for migration:Then continue with play
+  ansible.builtin.wait_for:
+    timeout: 10
+  delegate_to: localhost
+
+- name: Start VM
+  community.general.proxmox_kvm:
+    api_user: "root@pam"
+    api_password: "{{ proxmox_password }}"
+    api_host: "{{ proxmox_host }}"
+    name: "{{ k8s_hostname }}"
+    node: "{{ proxmox_node }}"
+    state: started
+
+- name: Set VM ID fact
+  set_fact:
+    vm_id: "{{ vm_id.vmid }}"
+

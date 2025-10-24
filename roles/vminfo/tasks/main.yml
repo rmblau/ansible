@@ -1,0 +1,26 @@
+- name: Add new VM to in-memory inventory for post-provisioning tasks
+  ansible.builtin.add_host:
+    name: "{{ vm_name }}"
+    groups: new_vms
+    ansible_host: "{{ '192.168.1.100' }}" # Use the static IP set in ipconfig0
+    ansible_user: "ansible" # The ciuser for SSH
+
+- name: Retrieve VM information including network status
+  community.general.proxmox_vm_info:
+    api_host: "{{ proxmox_host }}"
+    api_user: "root@pam"
+    api_password: "{{ proxmox_password }}"
+    vmid: "{{ vm_id }}"
+    network: true
+  register: vm_info
+
+- name: Display IP addresses
+  debug:
+    msg: |
+      {% for vm in vm_info.proxmox_vms %}
+      VM Name: {{ vm.name }}
+        Hardware Address: {{ vm.network[1]['hardware-address'] }}
+        {% for ip_address_info in vm.network[1]['ip-addresses'] %}
+          IP Address ({{ip_address_info['ip-address-type'] }}): {{ip_address_info['ip-address'] }}
+        {% endfor %}
+      {% endfor %}
