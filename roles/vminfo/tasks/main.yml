@@ -3,7 +3,7 @@
     name: qemu-guest-agent
     state: present
     update_cache: yes
-  delegate_to: "{{ inventory_hostname}}.rmblau.com"
+  delegate_to: "{{ machine_name }}.rmblau.com"
   become: yes
   become_user: ansible
 - name: Retrieve VM information including network status
