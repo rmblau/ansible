@@ -11,7 +11,9 @@
   ansible.builtin.systemd_service:
     state: started
     name: qemu-guest-agent
-
+  become: yes
+  become_user: root
+  become_flags: 'su - root /bin/bash -c'
 - name: Retrieve VM information including network status
   community.general.proxmox_vm_info:
     api_host: "{{ proxmox_host }}"
