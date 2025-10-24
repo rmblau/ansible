@@ -4,6 +4,7 @@
   gather_facts: false
   become: yes
   become_user: root
+  become_flags: 'su - root /bin/bash -c'
   tasks:
     - name: Import vminfo tasks
       import_role:
