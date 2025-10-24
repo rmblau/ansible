@@ -5,7 +5,7 @@
     update_cache: yes
   delegate_to: "{{ machine_name }}.rmblau.com"
   become: yes
-  become_user: ansible
+  become_user: root
 - name: start qemu-guest-agent service
   ansible.builtin.systemd_service:
     state: started
