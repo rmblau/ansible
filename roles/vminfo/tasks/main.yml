@@ -8,9 +8,7 @@
   become_user: root
   become_flags: 'su - root /bin/bash -c'
 - name: start qemu-guest-agent service
-  ansible.builtin.systemd_service:
-    state: started
-    name: qemu-guest-agent
+  command: systemctl start qemu-guest-agent
   become: yes
   become_user: root
   become_method: sudo
