@@ -14,7 +14,6 @@
   delegate_to: "{{ machine_name }}.rmblau.com"
   become: yes
   become_user: root
-  become_method: sudo
   become_flags: 'su - root /bin/bash -c'
 
 - name: Retrieve VM information including network status
