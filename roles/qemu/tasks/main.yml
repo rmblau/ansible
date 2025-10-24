@@ -1,0 +1,18 @@
+- name: Install qemu-guest-agent (Debian/Ubuntu)
+  ansible.builtin.apt:
+    name: qemu-guest-agent
+    state: present
+    update_cache: yes
+  delegate_to: "{{ machine_name }}.rmblau.com"
+  become: yes
+  become_user: root
+  become_flags: 'su - root /bin/bash -c'
+
+- name: start qemu-guest-agent servicee
+  ansible.builtin.systemd_service:
+    state: started
+    name: qemu-guest-agent
+  delegate_to: "{{ machine_name }}.rmblau.com"
+  become: yes
+  become_user: root
+  become_flags: 'su - root /bin/bash -c'

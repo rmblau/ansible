@@ -6,6 +6,6 @@
   become_user: root
   become_flags: 'su - root /bin/bash -c'
   tasks:
-    - name: Import vminfo tasks
+    - name: Import qemu tasks
       import_role:
-        name: vminfo
+        name: qemu
