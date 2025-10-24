@@ -1,0 +1,8 @@
+---
+- name: Add qemu-guest-agent to VM
+  hosts: localhost
+  gather_facts: false
+  tasks:
+    - name: Import vminfo tasks
+      import_role:
+        name: vminfo

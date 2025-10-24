@@ -73,3 +73,7 @@
   set_fact:
     vm_id: "{{ vm_id.vmid }}"
 
+- name: Display VM id
+  debug:
+    msg: "{{ vm_ id }}"
+

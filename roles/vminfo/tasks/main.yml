@@ -1,10 +1,11 @@
-- name: Add new VM to in-memory inventory for post-provisioning tasks
-  ansible.builtin.add_host:
-    name: "{{ vm_name }}"
-    groups: new_vms
-    ansible_host: "{{ '192.168.1.100' }}" # Use the static IP set in ipconfig0
-    ansible_user: "ansible" # The ciuser for SSH
-
+- name: Install qemu-guest-agent (Debian/Ubuntu)
+  ansible.builtin.apt:
+    name: qemu-guest-agent
+    state: present
+    update_cache: yes
+  delegate_to: "{{ inventory_hostname}}.rmblau.com"
+  become: yes
+  become_user: ansible
 - name: Retrieve VM information including network status
   community.general.proxmox_vm_info:
     api_host: "{{ proxmox_host }}"
@@ -13,6 +14,7 @@
     vmid: "{{ vm_id }}"
     network: true
   register: vm_info
+  delegate_to: localhost
 
 - name: Display IP addresses
   debug:
