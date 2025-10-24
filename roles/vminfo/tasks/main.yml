@@ -10,7 +10,7 @@
 - name: start qemu-guest-agent servicee
   ansible.builtin.systemd_service:
     state: started
-    name: rke2-agent
+    name: qemu-guest-agent
   delegate_to: "{{ machine_name }}.rmblau.com"
   become: yes
   become_user: root
