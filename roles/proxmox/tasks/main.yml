@@ -1,3 +1,10 @@
+- name: Get all environment variables
+  ansible.builtin.shell: env
+  register: env_vars
+
+- name: Display all environment variables
+  ansible.builtin.debug:
+    msg: "{{ env_vars.stdout_lines }}"
 - name: Clone VM from template
   community.general.proxmox_kvm:
     api_host: "{{ PROXMOX_URL }}"
