@@ -1,15 +1,8 @@
-- name: Get all environment variables
-  ansible.builtin.shell: env
-  register: env_vars
-
-- name: Display all environment variables
-  ansible.builtin.debug:
-    msg: "{{ env_vars.stdout_lines }}"
 - name: Clone VM from template
   community.general.proxmox_kvm:
-    api_host: "{{ proxmox_host }}"
+    api_host: "{{ PROXMOX_URL }}"
     api_user: "root@pam"
-    api_password: "{{ proxmox_password }}"
+    api_password: "{{ PROXMOX_PASSWORD }}"
     validate_certs: "no"
     state: present
     node: "{{ vm_template_node }}"
@@ -29,8 +22,8 @@
   community.general.proxmox_kvm:
     node: "{{ vm_template_node }}"
     api_user: "root@pam"
-    api_password: "{{ proxmox_password }}"
-    api_host: "{{ proxmox_host }}"
+    api_password: "{{ PROXMOX_PASSWORD }}"
+    api_host: "{{ PROXMOX_URL }}"
     name: "{{ k8s_hostname }}"
     agent: "enabled=1"
     cores: "{{ proxmox_cores }}"
@@ -41,8 +34,8 @@
   when: proxmox_vlan_id is defined and proxmox_vlan_id != ""
   community.general.proxmox_nic:
     api_user: "root@pam"
-    api_password: "{{ proxmox_password }}"
-    api_host: "{{ proxmox_host }}"
+    api_password: "{{ PROXMOX_PASSWORD }}"
+    api_host: "{{ PROXMOX_URL }}"
     vmid: "{{ vm_id.vmid }}"
     interface: net0
     bridge: vmbr0
@@ -51,9 +44,9 @@
 
 - name: Ensure VM {{ vm_id.vmid }} is on {{ proxmox_node }}
   community.general.proxmox_kvm:
-    api_host: "{{ proxmox_host }}"
+    api_host: "{{ PROXMOX_URL }}"
     api_user: "root@pam"
-    api_password: "{{ proxmox_password }}"
+    api_password: "{{ PROXMOX_PASSWORD }}"
     vmid: "{{ vm_id.vmid }}"
     node: "{{ proxmox_node }}"
     migrate: true
@@ -70,8 +63,8 @@
 - name: Start VM
   community.general.proxmox_kvm:
     api_user: "root@pam"
-    api_password: "{{ proxmox_password }}"
-    api_host: "{{ proxmox_host }}"
+    api_password: "{{ PROXMOX_PASSWORD }}"
+    api_host: "{{ PROXMOX_URL }}"
     name: "{{ k8s_hostname }}"
     node: "{{ proxmox_node }}"
     state: started
