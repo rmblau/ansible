@@ -30,18 +30,6 @@
     memory: "{{ proxmox_memory }}"
     update: "yes"
 
-- name: Vlan Assignment
-  when: proxmox_vlan_id is defined and proxmox_vlan_id != ""
-  community.general.proxmox_nic:
-    api_host: "{{ lookup('env', 'PROXMOX_URL') }}"
-    api_user: "{{ lookup('env', 'PROXMOX_USERNAME') }}"
-    api_password: "{{ lookup('env', 'PROXMOX_PASSWORD') }}"
-    vmid: "{{ vm_id.vmid }}"
-    interface: net0
-    bridge: vmbr0
-    tag: "{{ proxmox_vlan_id }}"
-  register: vlanasign_result
-
 - name: Ensure VM {{ vm_id.vmid }} is on {{ proxmox_node }}
   community.general.proxmox_kvm:
     api_host: "{{ lookup('env', 'PROXMOX_URL') }}"
