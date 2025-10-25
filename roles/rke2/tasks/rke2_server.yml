@@ -25,6 +25,8 @@
     group: root
     directory_mode: '0600'
   become: yes
+  become_user: root
+  become_flags: 'su - root /bin/bash -c'
 
 - name: start rke2 service
   ansible.builtin.systemd_service:

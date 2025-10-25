@@ -37,6 +37,8 @@
     dest: /home/ansible/config.yaml
     flat: yes
   become: yes
+  become_user: root
+  become_flags: 'su - root /bin/bash -c'
 
 - name: Get node token
   ansible.builtin.fetch:
@@ -44,3 +46,5 @@
     dest: /home/ansible/node-token
     flat: yes
   become: yes
+  become_user: root
+  become_flags: 'su - root /bin/bash -c'
