@@ -1,3 +1,7 @@
+- name: print env variables
+  ansible.builtin.debug:
+    msg: "proxmox host is {{lookup('env', 'proxmox_host') }}"
+
 - name: Clone VM from template
   community.general.proxmox_kvm:
     api_host: "{{ proxmox_host }}"
