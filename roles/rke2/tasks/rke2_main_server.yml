@@ -1,0 +1,46 @@
+---
+- name: download and execute rke2 script
+  shell:
+    cmd: curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_TYPE=server sh -
+    creates: /usr/local/bin/rke2
+  register: rke2_server_result
+  become: yes
+
+- name: enable rke2 service
+  ansible.builtin.systemd_service:
+    enabled: true
+    name: rke2-server
+  become: yes
+
+- name: Creates rancher rke2 directory
+  ansible.builtin.file:
+    path: /etc/rancher/rke2
+    state: directory
+
+- name: configure server yaml
+  template:
+    src: main-server-config.yaml.j2
+    dest: /etc/rancher/rke2/config.yaml
+    owner: root
+    group: root
+    directory_mode: '0600'
+  become: yes
+
+- name: start rke2 service
+  ansible.builtin.systemd_service:
+    state: started
+    name: rke2-server
+
+- name: Get kubeconfig
+  ansible.builtin.fetch:
+    src: /etc/rancher/rke2/rke2.yaml
+    dest: /home/ansible/config.yaml
+    flat: yes
+  become: yes
+
+- name: Get node token
+  ansible.builtin.fetch:
+    src:  /var/lib/rancher/rke2/server/token
+    dest: /home/ansible/node-token
+    flat: yes
+  become: yes

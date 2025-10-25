@@ -1,0 +1,13 @@
+---
+- name: rke2 install
+  hosts: all
+  gather_facts: false
+  become: yes
+
+  tasks:
+    - name: import common tasks
+      import_role:
+        name: common
+    - name: import rke2 tasks
+      import_role:
+        name: rke2

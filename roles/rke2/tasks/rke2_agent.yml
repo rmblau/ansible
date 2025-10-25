@@ -1,0 +1,30 @@
+---
+- name: download and execute rke2 script
+  shell: | 
+    curl -sfL https://get.rke2.io | INSTALL_RKE2_CHANNEL=stable INSTALL_RKE2_TYPE=agent sh -
+  register: rke2_agent_result
+  become: yes
+
+- name: enable rke2 agent service
+  ansible.builtin.systemd_service:
+    enabled: true
+    name: rke2-agent
+
+- name: Creates rancher rke2 directory
+  ansible.builtin.file:
+    path: /etc/rancher/rke2
+    state: directory
+
+- name: configure agent yaml
+  template:
+    src: agent-config.yaml.j2
+    dest: /etc/rancher/rke2/config.yaml
+    owner: root
+    group: root
+    directory_mode: '0600'
+  become: yes
+
+- name: start rke2 agent service
+  ansible.builtin.systemd_service:
+    state: started
+    name: rke2-agent

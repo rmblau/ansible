@@ -1,0 +1,6 @@
+disable:
+  - rke2-ingress-nginx
+tls-san:
+  - {{ tls_san }}
+node-taint:
+  - "CriticalAddonsOnly=true:NoExecute"

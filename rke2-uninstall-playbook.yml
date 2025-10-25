@@ -1,0 +1,11 @@
+---
+- name: rke2 uninstall
+  hosts: all
+  gather_facts: true
+  become: yes
+
+  tasks:
+    - name: uninstall rke2
+      shell:
+        cmd: /usr/local/bin/rke2-uninstall.sh
+      become: yes

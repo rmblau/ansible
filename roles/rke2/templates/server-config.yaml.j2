@@ -1,0 +1,8 @@
+server: https://{{ rke2_server_url }}:9345
+token: {{ rke2_token }}
+tls-san:
+  - {{ tls_san }}
+disable:
+  - rke2-ingress-nginx
+node-taint:
+  - "CriticalAddonsOnly=true:NoExecute"

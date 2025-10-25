@@ -1,0 +1,13 @@
+---
+
+- name: include main server tasks
+  include_tasks: rke2_main_server.yml
+  when: server_type == 'main_server'
+
+- name: include server tasks
+  include_tasks: rke2_server.yml
+  when: server_type == 'server'
+
+- name: include agent tasks
+  include_tasks: rke2_agent.yml
+  when: server_type == 'agent'
