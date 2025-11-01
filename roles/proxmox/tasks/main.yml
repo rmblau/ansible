@@ -9,6 +9,7 @@
     clone: "{{ vm_template_name }}"
     full: "yes"
     name: "{{ k8s_hostname }}"
+    storage: "{{ storage }}"
     timeout: 300
   delegate_to: localhost
   register: vm_id
